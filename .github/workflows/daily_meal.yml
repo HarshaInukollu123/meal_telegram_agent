@@ -1,0 +1,33 @@
+name: Daily Meal Plan
+
+on:
+  schedule:
+    # 7 PM EST (UTC-5 → 00:00 UTC next day)
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  run-meal-agent:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install Dependencies
+        run: |
+          pip install crewai langchain-openai python-dotenv requests
+          pip install -e .
+
+      - name: Run Meal Agent
+        env:
+          OPENAI_API_KEY: ${{ vars.OPENAI_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ vars.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ vars.TELEGRAM_CHAT_ID }}
+        run: |
+          python -m meal_telegram_agent.main
