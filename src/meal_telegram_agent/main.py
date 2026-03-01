@@ -12,6 +12,9 @@ def send_to_telegram(message):
     token = os.getenv("TELEGRAM_BOT_TOKEN")
     chat_id = os.getenv("TELEGRAM_CHAT_ID")
 
+    print("DEBUG TOKEN:", token)
+    print("DEBUG CHAT_ID:", chat_id)
+
     url = f"https://api.telegram.org/bot{token}/sendMessage"
 
     payload = {
@@ -19,7 +22,10 @@ def send_to_telegram(message):
         "text": message
     }
 
-    requests.post(url, data=payload)
+    response = requests.post(url, data=payload)
+
+    print("Telegram Status:", response.status_code)
+    print("Telegram Response:", response.text)
 
 
 def format_message(plan_json):
