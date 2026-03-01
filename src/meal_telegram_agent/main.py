@@ -9,8 +9,8 @@ import json
 load_dotenv()
 
 def send_to_telegram(message):
-    token = os.getenv("TELEGRAM_BOT_TOKEN")
-    chat_id = os.getenv("TELEGRAM_CHAT_ID")
+    token = os.getenv("TELEGRAM_BOT_TOKEN").strip()
+    chat_id = os.getenv("TELEGRAM_CHAT_ID").strip()
 
     print("DEBUG TOKEN:", token)
     print("DEBUG CHAT_ID:", chat_id)
